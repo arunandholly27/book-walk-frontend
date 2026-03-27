@@ -1,3 +1,8 @@
 import { Routes } from '@angular/router';
+import { CalendarComponent } from './components/calendar/calendar';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    { path: '', redirectTo: '/calendar', pathMatch: 'full' },
+    { path: 'calendar', component: CalendarComponent },
+
+];

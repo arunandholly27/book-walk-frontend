@@ -1,12 +1,12 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+// src/app/app.component.ts
+import { Component } from '@angular/core';
+import { CalendarComponent } from './components/calendar/calendar';
 
 @Component({
-  selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+    selector: 'app-root',
+    standalone: true,
+    imports: [CalendarComponent],
+    template: '<app-calendar></app-calendar>',
+    styleUrls: ['./app.css'],
 })
-export class App {
-  protected readonly title = signal('book-walk-app');
-}
+export class AppComponent { }
