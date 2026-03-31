@@ -7,7 +7,9 @@
                 </h3>
             </div>
             <div style="display: flex; justify-content: center">
-                <button class="add-event-btn" (click)="addEvent(day)">+</button>
+                <!-- <button class="add-event-btn" (click)="addEvent(day)">+</button> -->
+                <button (click)="showModal()">+</button>
+                <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
             </div>
         </div>
 
@@ -19,7 +21,9 @@
                     </h3>
                 </div>
                 <div style="display: flex; justify-content: center">
-                    <button class="add-event-btn" (click)="addEvent(day)">+</button>
+                    <!-- <button class="add-event-btn" (click)="addEvent(day)">+</button> -->
+                    <button (click)="showModal()">+</button>
+                    <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
                 </div>
             </div>
         </ng-template>

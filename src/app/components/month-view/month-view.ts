@@ -1,13 +1,15 @@
 //src/app/components/month-view/month-view.component.ts
 import { Component, Input, OnInit } from '@angular/core';
+import { FormModal } from '../modal/form-modal';
 import { CommonModule } from '@angular/common';
 import { EventListComponent } from '../event-list/event-list';
 import { EventService } from '../../services/event';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-month-view',
     standalone: true,
-    imports: [CommonModule, EventListComponent],
+    imports: [CommonModule, EventListComponent, MatDialogModule, FormModal],
     templateUrl: './month-view.html',
     styleUrls: ['./month-view.css'],
 })
@@ -16,6 +18,7 @@ export class MonthViewComponent implements OnInit {
     days: Date[] = [];
     events: { [key: string]: string[] } = {};
     selectedDate: Date | null = null;
+    isModalVisible = false;
 
     constructor(private eventService: EventService) { }
 
@@ -69,5 +72,11 @@ export class MonthViewComponent implements OnInit {
         const dateString = day.toISOString().split('T')[0];
         const arr = this.eventService.getEvents(dateString);
         return arr.length;
+    }
+    showModal() {
+        this.isModalVisible = true;
+    }
+    hideModal() {
+        this.isModalVisible = false;
     }
 }
