@@ -1,7 +1,17 @@
-<div class="modal-overlay" (click)="closeModal()">
+<!-- <div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
 	<h2>Modal Title</h2>
 	<app-entry-form (submitEntry)="handleSubmit($event)"></app-entry-form>
 	<button (click)="closeModal()">Close</button>
+  </div>
+</div> -->
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+	<button mat-icon-button class="close-button" (click)="closeModal()" 
+		style="display: block;float: right;">
+	<mat-icon>close</mat-icon>
+	</button>
+	<h1 style="display: block;margin-bottom: 2rem;" mat-dialog-title>New Contest Entry</h1>
+		<app-entry-form (submitEntry)="handleSubmit($event)"></app-entry-form>
   </div>
 </div>

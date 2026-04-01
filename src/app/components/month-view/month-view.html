@@ -2,7 +2,7 @@
     <div class="day" *ngFor="let day of days" (click)="selectDate(day)">
         <div *ngIf="checkEvent(day) >= 1; else noEvents">
             <div>
-                <h3 style="color: rgb(248, 72, 72)">
+                <h3 style="color: rgb(72, 78, 248)">
                     {{ day | date : "EEEE, dd" }}
                 </h3>
             </div>

@@ -4,3 +4,30 @@
     margin-bottom: 0.5rem;
     justify-content: center;
 }
+.form-label {
+    margin-right: 10px;
+    font-size: large;
+}
+
+.text-input {
+    font-size: large;
+    color: black;
+    max-width: 9rem;
+}
+.num-input {
+    font-size: large;
+    color: black;
+    max-width: 3rem;
+}
+.book {
+    display: block;
+    float: inline-start;
+    max-width: 50%;
+    text-align: left;
+}
+.walk {
+    display: block;
+    float: inline-end;
+    max-width: 50%;
+    text-align: left;
+}
