@@ -1,20 +1,59 @@
-<form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-    <label for="date">Date:</label>
-    <input id="date" formControlName="entryDate" type="date" />
-
-    <label for="user">User:</label>
-    <input id="user" formControlName="user" type="text" />
-
-    <label for="book">Book:</label>
-    <input id="book" formControlName="book" type="text" />
-
-    <label for="pages">Number of Pages:</label>
-    <input id="pages" formControlName="pages" type="number" />
-
-    <label for="walk">Walk Name:</label>
-    <input id="walk" formControlName="walk" type="text" />
-
-    <label for="miles">Miles:</label>
-    <input id="miles" formControlName="miles" type="number" />
-</form>
+<div>
+    <form [formGroup]="entryForm" (ngSubmit)="onSubmit()" class="flex-col">
+        <div class="date-user">
+            <div>
+                <label for="date" style="margin-right: 10px;">Date:</label>
+                <input id="date" formControlName="entryDate" type="date" />
+            </div>
+            <div>
+                <label for="user" style="margin-right: 10px;">User:</label>
+                <input id="user" formControlName="user" type="text" />
+            </div>
+        </div>
+        <div>
+            <label for="book">Book:</label>
+            <input id="book" formControlName="book" type="text" />
+        </div>
+        <div>
+            <label for="pages">Number of Pages:</label>
+            <input id="pages" formControlName="pages" type="number" />
+        </div>
+        <div>
+            <label for="walk">Walk Name:</label>
+            <input id="walk" formControlName="walk" type="text" />
+        </div>
+        <div>
+            <label for="miles">Miles:</label>
+            <input id="miles" formControlName="miles" type="number" />
+        </div>
+    </form>
+</div>
+<div>
+    <form [formGroup]="entryForm" (ngSubmit)="onSubmit()" class="flex-col">
+        <div style="display: flex; margin-bottom: 0.5rem;">
+            <label for="date">Date:</label>
+            <input id="date" formControlName="entryDate" type="date" />
+        </div>
+        <div style="display: flex; margin-bottom: 0.5rem;">
+            <label for="user">User:</label>
+            <input id="user" formControlName="user" type="text" />
+        </div>
+        <div>
+            <label for="book">Book:</label>
+            <input id="book" formControlName="book" type="text" />
+        </div>
+        <div>
+            <label for="pages">Number of Pages:</label>
+            <input id="pages" formControlName="pages" type="number" />
+        </div>
+        <div>
+            <label for="walk">Walk Name:</label>
+            <input id="walk" formControlName="walk" type="text" />
+        </div>
+        <div>
+            <label for="miles">Miles:</label>
+            <input id="miles" formControlName="miles" type="number" />
+        </div>
+    </form>
+</div>
 <button type="submit" [disabled]="!entryForm.valid" (click)="onSubmit()">Submit</button>

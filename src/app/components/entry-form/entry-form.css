@@ -1,0 +1,6 @@
+.date-user {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+}
