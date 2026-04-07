@@ -7,5 +7,5 @@ export interface Entry {
     dtEntryDate: Date;
     liReads: Read[];
     liWalks: Walk[];
-    objUser: User;
+    userId: number;
 }

@@ -31,7 +31,7 @@
 </div>
 
 <!-- Events section -->
-<div class="events-container" *ngIf="selectedDate">
+<div class="events-container" *ngIf="selectedDate && this.showEvents">
     <h3>Events for {{ selectedDate | date : "EEEE, MMMM dd, yyyy" }}</h3>
 
     <app-event-list [events]="events[selectedDate.toISOString().split('T')[0]] || []"

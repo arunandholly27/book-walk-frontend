@@ -1,5 +1,5 @@
 //src/app/components/month-view/month-view.component.ts
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormModal } from '../modal/form-modal';
 import { CommonModule } from '@angular/common';
 import { EventListComponent } from '../event-list/event-list';
@@ -19,8 +19,9 @@ export class MonthViewComponent implements OnInit {
     events: { [key: string]: string[] } = {};
     selectedDate: Date | null = null;
     isModalVisible = false;
+    showEvents = false;
 
-    constructor(private eventService: EventService) { }
+    constructor(private eventService: EventService, private cdRef: ChangeDetectorRef) { }
 
     ngOnInit() {
         this.days = this.getDaysInMonth();
@@ -33,6 +34,7 @@ export class MonthViewComponent implements OnInit {
     }
     selectDate(day: Date) {
         this.selectedDate = day;
+        this.showEvents = true;
     }
     getDaysInMonth(): Date[] {
         const days = [];
@@ -74,9 +76,11 @@ export class MonthViewComponent implements OnInit {
         return arr.length;
     }
     showModal() {
+        this.showEvents = false;
         this.isModalVisible = true;
     }
     hideModal() {
         this.isModalVisible = false;
+        this.showEvents = true;
     }
 }
