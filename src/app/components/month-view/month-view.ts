@@ -1,5 +1,5 @@
 //src/app/components/month-view/month-view.component.ts
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormModal } from '../modal/form-modal';
 import { CommonModule, formatDate } from '@angular/common';
 import { EventListComponent } from '../event-list/event-list';
@@ -7,15 +7,21 @@ import { EventService } from '../../services/event';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EntryService } from '../../services/entry/entry-service';
 import { Entry } from '../../objects/Entry';
+import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
+import { BookService } from '../../services/book/book-service';
+import { Book } from '../../objects/Book';
 
 @Component({
     selector: 'app-month-view',
     standalone: true,
-    imports: [CommonModule, EventListComponent, MatDialogModule, FormModal],
+    imports: [CommonModule, EventListComponent, MatDialogModule, FormModal,
+         MatExpansionPanel, MatExpansionPanelHeader],
     templateUrl: './month-view.html',
     styleUrls: ['./month-view.css'],
 })
 export class MonthViewComponent implements OnInit {
+    @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+
     @Input() date!: Date;
     days: Date[] = [];
     events: { [key: string]: string[] } = {};
@@ -24,12 +30,14 @@ export class MonthViewComponent implements OnInit {
     showEvents = false;
     eventDates: any[] = [];
 
-    constructor(private eventService: EventService, private entryService: EntryService) { }
+    constructor(private eventService: EventService,
+         private entryService: EntryService, private bookService: BookService) { }
 
     ngOnInit() {
         this.days = this.getDaysInMonth();
         this.loadEvents();
         this.getEventDates();
+        this.loadBooks();
     }
     testBooks() {
         this.entryService.searchBooks().subscribe({
@@ -49,6 +57,9 @@ export class MonthViewComponent implements OnInit {
     selectDate(day: Date) {
         this.selectedDate = day;
         this.showEvents = true;
+        if (this.expansionPanel) {
+            this.expansionPanel.open();
+        }
     }
     getDaysInMonth(): Date[] {
         const days = [];
@@ -130,5 +141,16 @@ export class MonthViewComponent implements OnInit {
     hideModal() {
         this.isModalVisible = false;
         this.showEvents = true;
+    }
+    loadBooks() {
+        this.bookService.loadBooks().subscribe({
+            next: (data) => {
+                const books: Book[] = data.objReturnObject;
+                console.log('Books loaded:', books);
+            },
+            error: (error) => {
+                console.error('Error loading books:', error);
+            }
+        });
     }
 }

@@ -1,12 +1,13 @@
 table {
-  width: 100%;
+  padding-left: 5px;
+  table-layout: fixed;
 }
 
 th.mat-sort-header-sorted {
   color: black;
 }
 
-.mat-row[nodatarow] {
+.mat-cell {
   color: grey;
   font-style: italic;
   text-align: center;
@@ -14,4 +15,59 @@ th.mat-sort-header-sorted {
 
 .main-header {
     font-weight: bolder;
+}
+
+.mat-mdc-cell {
+    font-size: 15px;
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+
+.mat-mdc-header-cell {
+    font-size: 16px;
+}
+
+.mat-column-reading, .mat-column-walking {
+    padding : 0px;
+}
+
+
+.mat-mdc-table {
+  background-color: var(--mat-sys-surface);
+  box-shadow: none !important;
+}
+
+.row-image {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%; /* Optional: Makes image circular */
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.mat-column-pic {
+  padding: 0px;
+  text-align: right;
+  width: 40px !important;
+  max-width: 40px !important;
+  min-width: 40px !important;
+}
+
+.mat-column-entryId {
+  padding: 0px;
+  width: 50px !important;
+  max-width: 50px !important;
+  min-width: 50px !important;
+}
+
+.mat-column-name {
+  width: 200px !important;
+  max-width: 200px !important;
+  min-width: 200px !important;
+}
+
+.mat-column-book, .mat-column-walk {
+  width: 400px !important;
+  max-width: 400px !important;
+  min-width: 400px !important;
 }

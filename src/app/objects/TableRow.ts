@@ -5,4 +5,5 @@ export interface TableRow {
     pages: any;
     walk: any;
     distance: any;
+    pic: any;
 }

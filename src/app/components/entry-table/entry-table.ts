@@ -21,8 +21,8 @@ export class EntryTable implements OnChanges {
   @Input() selectedDate!: Date;
   private _liveAnnouncer = inject(LiveAnnouncer);
 
-  readColumns: string[] = ['entryId', 'name', 'book', 'pages'];
-  walkColumns: string[] = ['entryId', 'name', 'walk', 'distance'];
+  readColumns: string[] = ['entryId', 'pic', 'name', 'book', 'pages'];
+  walkColumns: string[] = ['entryId', 'pic', 'name', 'walk', 'distance'];
   readSource = new MatTableDataSource<any>();
   walkSource = new MatTableDataSource<any>();
 
@@ -64,16 +64,28 @@ export class EntryTable implements OnChanges {
       next: (data) => {
         if (data != null && data.returnCode === 200) {
           const entries: Entry[] = data.objReturnObject;
-          let i = 1;
+          console.log(entries);
           const readRows: TableRow[] = entries.map(entry => ({
-            entryId: i++,
+            entryId: 1,
             name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
             book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
             pages: entry.liReads[0]?.pages,
             walk: `${entry.liWalks[0]?.strWalkName || 'No Walk'}`,
-            distance: entry.liWalks[0]?.bdMiles || 0.0
-          }));
-          const walkRows = readRows;
+            distance: entry.liWalks[0]?.bdMiles || 0.0,
+            pic: entry.objUser?.strPic != null 
+              ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
+          })).filter(row => row.book !== 'No Book').map((row, index) => ({ ...row, entryId: index + 1 }));
+          const walkRows = entries.map(entry => ({
+            entryId: 1,
+            name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
+            book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
+            pages: entry.liReads[0]?.pages,
+            walk: `${entry.liWalks[0]?.strWalkName || 'No Walk'}`,
+            distance: entry.liWalks[0]?.bdMiles || 0.0,
+            pic: entry.objUser?.strPic != null 
+              ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
+          })).filter(row => row.walk !== 'No Walk').map((row, index) => ({ ...row, entryId: index + 1 }));
+          console.log('Read Rows:', readRows);
           this.readSource = new MatTableDataSource(readRows);
           this.readSource.sort = this.readSort;
           this.walkSource = new MatTableDataSource(walkRows);

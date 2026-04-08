@@ -4,4 +4,5 @@ export interface Book {
     strAuthor: any;
     iTotalPages: any;
     iCurrentPage: any;
+    liReads: any;
 }

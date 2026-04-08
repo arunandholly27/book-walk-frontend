@@ -14,15 +14,15 @@
         </div>
 
         <ng-template #noEvents>
-            <div>
+            <div (click)="selectDate(day)">
                 <div>
-                    <h3 (click)="selectDate(day)">
+                    <h3>
                         {{ day | date : "EEEE, dd" }}
                     </h3>
                 </div>
                 <div style="display: flex; justify-content: center">
                     <!-- <button class="add-event-btn" (click)="addEvent(day)">+</button> -->
-                    <button class="add-event-btn" (click)="showModal()">+</button>
+                    <!-- <button class="add-event-btn" (click)="showModal()">+</button> -->
                     <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
                 </div>
             </div>
@@ -30,9 +30,14 @@
     </div>
 </div>
 
-<!-- Events section -->
-<div class="events-container" *ngIf="selectedDate && this.showEvents">
-    <h3>Events for {{ selectedDate | date : "EEEE, MMMM dd, yyyy" }}</h3>
-
+<mat-expansion-panel [expanded]="true" *ngIf="selectedDate && this.showEvents">
+  <mat-expansion-panel-header>
+    <h3 style="padding-left: 10px;padding-top: 10px;">Events for {{ selectedDate | date : "EEEE, MMMM dd, yyyy" }}</h3>
+    <!-- <mat-panel-title>Title</mat-panel-title>
+    <mat-panel-description>Description</mat-panel-description> -->
+  </mat-expansion-panel-header>
+  <!-- Events section -->
+<div class="events-container">
     <app-event-list [selectedDate]="selectedDate"></app-event-list>
 </div>
+</mat-expansion-panel>
