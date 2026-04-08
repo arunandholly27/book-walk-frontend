@@ -90,3 +90,18 @@ th.mat-sort-header-sorted {
   max-width: 250px !important;
   min-width: 250px !important;
 }
+
+.cell-book {
+  cursor: pointer;
+  hover {
+    color: #5908ab;
+    text-decoration: underline;
+  }
+}
+
+::ng-deep .book-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}

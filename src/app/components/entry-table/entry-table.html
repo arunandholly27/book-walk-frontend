@@ -38,7 +38,19 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by book">
         Book
         </th>
-        <td mat-cell *matCellDef="let element"> {{element.book}} </td>
+        <td mat-cell class="cell-book" *matCellDef="let element"
+            [matMenuTriggerFor]="menu" 
+            #menuTrigger="matMenuTrigger" 
+            (click)="menuTrigger.openMenu()">
+            <mat-menu #menu="matMenu" yPosition="above" 
+                class="book-details" [overlapTrigger]="false">
+                <!-- Wrap items in a container to capture mouseleave -->
+                <div class="menu-item">Title: {{element.book.strTitle}}</div>
+                <div class="menu-item">Author: {{element.book.strAuthor}}</div>
+                <div class="menu-item">Current Page: {{element.book.iCurrentPage}}</div>
+                <div class="menu-item">Total Pages: {{element.book.iTotalPages}}</div>
+            </mat-menu> {{element.book.strTitle}}
+        </td>
     </ng-container>
 
     <!-- Pages Column -->

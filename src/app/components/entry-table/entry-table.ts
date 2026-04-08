@@ -13,12 +13,13 @@ import { MatIcon, MatIconModule } from '@angular/material/icon';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatTooltip } from '@angular/material/tooltip';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-entry-table',
   imports: [ReactiveFormsModule, MatTableModule, RouterModule,
      MatSortModule, CommonModule, MatProgressSpinner, MatIconModule,
-      MatButtonModule, MatDialogModule, MatTooltip],
+      MatButtonModule, MatDialogModule, MatMenu, MatMenuTrigger],
   templateUrl: './entry-table.html',
   styleUrl: './entry-table.css',
 })
@@ -34,6 +35,7 @@ export class EntryTable implements OnChanges {
   @ViewChild('MatSort1') readSort!: MatSort;
   @ViewChild('MatSort2') walkSort!: MatSort;
   @ViewChild('deleteConfirmation') deleteConfirmationTemplate: any;
+  @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
 
   isLoading = false;
 
@@ -77,7 +79,7 @@ export class EntryTable implements OnChanges {
             entryId: entry.entryId,
             displayId: 1,
             name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
-            book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
+            book: entry.liReads[0]?.objBook,
             pages: entry.liReads[0]?.pages,
             walk: `${entry.liWalks[0]?.strWalkName || 'No Walk'}`,
             distance: entry.liWalks[0]?.bdMiles || 0.0,
@@ -88,7 +90,7 @@ export class EntryTable implements OnChanges {
             entryId: entry.entryId,
             displayId: 1,
             name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
-            book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
+            book: entry.liReads[0]?.objBook,
             pages: entry.liReads[0]?.pages,
             walk: `${entry.liWalks[0]?.strWalkName || 'No Walk'}`,
             distance: entry.liWalks[0]?.bdMiles || 0.0,
