@@ -21,14 +21,14 @@
 .header button {
     padding: 10px;
     border: none;
-    background-color: #aa60aa;
+    background-color: #5908ab;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .header button:hover {
-    background-color: #5908ab;
+    background-color: #aa60aa;
 }
 
 .header h2 {

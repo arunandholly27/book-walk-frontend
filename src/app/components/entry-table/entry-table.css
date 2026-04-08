@@ -53,7 +53,7 @@ th.mat-sort-header-sorted {
   min-width: 40px !important;
 }
 
-.mat-column-entryId {
+.mat-column-displayId {
   padding: 0px;
   width: 50px !important;
   max-width: 50px !important;
@@ -70,4 +70,23 @@ th.mat-sort-header-sorted {
   width: 400px !important;
   max-width: 400px !important;
   min-width: 400px !important;
+}
+
+.mat-icon {
+  border: none !important;
+}
+
+.mat-mdc-button-persistent-ripple::before {
+  background-color: transparent !important;
+}
+
+/* To remove the focus outline */
+.mat-mdc-icon-button {
+  outline: none !important;
+}
+
+.mat-column-distance, .mat-column-pages {
+  width: 250px !important;
+  max-width: 250px !important;
+  min-width: 250px !important;
 }

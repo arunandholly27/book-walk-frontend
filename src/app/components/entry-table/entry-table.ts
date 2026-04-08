@@ -9,11 +9,16 @@ import { Entry } from '../../objects/Entry';
 import { TableRow } from '../../objects/TableRow';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIcon, MatIconModule } from '@angular/material/icon';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-entry-table',
   imports: [ReactiveFormsModule, MatTableModule, RouterModule,
-     MatSortModule, CommonModule, MatProgressSpinner],
+     MatSortModule, CommonModule, MatProgressSpinner, MatIconModule,
+      MatButtonModule, MatDialogModule, MatTooltip],
   templateUrl: './entry-table.html',
   styleUrl: './entry-table.css',
 })
@@ -21,17 +26,20 @@ export class EntryTable implements OnChanges {
   @Input() selectedDate!: Date;
   private _liveAnnouncer = inject(LiveAnnouncer);
 
-  readColumns: string[] = ['entryId', 'pic', 'name', 'book', 'pages'];
-  walkColumns: string[] = ['entryId', 'pic', 'name', 'walk', 'distance'];
+  readColumns: string[] = ['displayId', 'pic', 'name', 'book', 'pages', 'delete'];
+  walkColumns: string[] = ['displayId', 'pic', 'name', 'walk', 'distance', 'delete'];
   readSource = new MatTableDataSource<any>();
   walkSource = new MatTableDataSource<any>();
 
   @ViewChild('MatSort1') readSort!: MatSort;
   @ViewChild('MatSort2') walkSort!: MatSort;
+  @ViewChild('deleteConfirmation') deleteConfirmationTemplate: any;
 
   isLoading = false;
 
-  constructor(private entryService: EntryService,private cdr: ChangeDetectorRef) { }
+  constructor(private entryService: EntryService,private cdr: ChangeDetectorRef,
+      private dialog: MatDialog
+  ) { }
 
   ngOnChanges() {
     this.loadData(this.selectedDate);
@@ -66,7 +74,8 @@ export class EntryTable implements OnChanges {
           const entries: Entry[] = data.objReturnObject;
           console.log(entries);
           const readRows: TableRow[] = entries.map(entry => ({
-            entryId: 1,
+            entryId: entry.entryId,
+            displayId: 1,
             name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
             book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
             pages: entry.liReads[0]?.pages,
@@ -74,9 +83,10 @@ export class EntryTable implements OnChanges {
             distance: entry.liWalks[0]?.bdMiles || 0.0,
             pic: entry.objUser?.strPic != null 
               ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
-          })).filter(row => row.book !== 'No Book').map((row, index) => ({ ...row, entryId: index + 1 }));
+          })).filter(row => row.book !== 'No Book').map((row, index) => ({ ...row, displayId: index + 1 }));
           const walkRows = entries.map(entry => ({
-            entryId: 1,
+            entryId: entry.entryId,
+            displayId: 1,
             name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
             book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
             pages: entry.liReads[0]?.pages,
@@ -84,7 +94,7 @@ export class EntryTable implements OnChanges {
             distance: entry.liWalks[0]?.bdMiles || 0.0,
             pic: entry.objUser?.strPic != null 
               ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
-          })).filter(row => row.walk !== 'No Walk').map((row, index) => ({ ...row, entryId: index + 1 }));
+          })).filter(row => row.walk !== 'No Walk').map((row, index) => ({ ...row, displayId: index + 1 }));
           console.log('Read Rows:', readRows);
           this.readSource = new MatTableDataSource(readRows);
           this.readSource.sort = this.readSort;
@@ -98,6 +108,35 @@ export class EntryTable implements OnChanges {
         this.isLoading = false;
       
       },complete: () => {this.isLoading = false; this.cdr.markForCheck();}
+    });
+  }
+
+  onDelete(entryId: any) {
+    const dialogRef = this.dialog.open(this.deleteConfirmationTemplate);
+    
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const entry: Entry = {
+          entryId: entryId,
+          dtEntryDate: null,
+          liReads: [],
+          liWalks: [],
+          objUser: null
+        };
+        this.entryService.deleteEntry(entry).subscribe({
+          next: (data) => {
+            if (data != null && data.returnCode === 200) {
+              console.log('Entry deleted successfully');
+              this.loadData(this.selectedDate);
+            } else {
+              console.error('Failed to delete entry:', data);
+            }
+          },
+          error: (error) => {
+            console.error('Error deleting entry:', error);
+          }
+        });
+      }
     });
   }
     

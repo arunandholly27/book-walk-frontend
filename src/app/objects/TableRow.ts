@@ -6,4 +6,5 @@ export interface TableRow {
     walk: any;
     distance: any;
     pic: any;
+    displayId : any;
 }

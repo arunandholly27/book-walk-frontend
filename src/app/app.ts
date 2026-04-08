@@ -6,12 +6,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [CalendarComponent, MatProgressSpinnerModule, MatToolbarModule,
-        MatButtonModule, MatIconModule, MatExpansionModule
+        MatButtonModule, MatIconModule, MatExpansionModule, MatDialogModule,
+        MatTooltipModule
     ],
     template: '<app-calendar></app-calendar>',
     styleUrls: ['./app.css'],
