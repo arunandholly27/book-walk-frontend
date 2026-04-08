@@ -1,7 +1,7 @@
 export interface Book {
-    bookId: number;
-    strTitle: string;
-    strAuthor: string;
-    iTotalPages: number;
-    iCurrentPage: number;
+    bookId: any;
+    strTitle: any;
+    strAuthor: any;
+    iTotalPages: any;
+    iCurrentPage: any;
 }

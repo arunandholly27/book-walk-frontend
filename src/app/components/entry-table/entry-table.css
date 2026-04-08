@@ -5,3 +5,13 @@ table {
 th.mat-sort-header-sorted {
   color: black;
 }
+
+.mat-row[nodatarow] {
+  color: grey;
+  font-style: italic;
+  text-align: center;
+}
+
+.main-header {
+    font-weight: bolder;
+}

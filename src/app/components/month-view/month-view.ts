@@ -1,10 +1,12 @@
 //src/app/components/month-view/month-view.component.ts
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormModal } from '../modal/form-modal';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { EventListComponent } from '../event-list/event-list';
 import { EventService } from '../../services/event';
 import { MatDialogModule } from '@angular/material/dialog';
+import { EntryService } from '../../services/entry/entry-service';
+import { Entry } from '../../objects/Entry';
 
 @Component({
     selector: 'app-month-view',
@@ -20,12 +22,24 @@ export class MonthViewComponent implements OnInit {
     selectedDate: Date | null = null;
     isModalVisible = false;
     showEvents = false;
+    eventDates: any[] = [];
 
-    constructor(private eventService: EventService, private cdRef: ChangeDetectorRef) { }
+    constructor(private eventService: EventService, private entryService: EntryService) { }
 
     ngOnInit() {
         this.days = this.getDaysInMonth();
         this.loadEvents();
+        this.getEventDates();
+    }
+    testBooks() {
+        this.entryService.searchBooks().subscribe({
+            next: (data) => {
+                console.log('Books searched:', data);
+            },
+            error: (error) => {
+                console.error('Error searching books:', error);
+            }
+        });
     }
 
     ngOnChanges() {
@@ -56,6 +70,35 @@ export class MonthViewComponent implements OnInit {
         });
     }
 
+    getEventDates(): string[] {
+        const entryObj: Entry = {
+                entryId: null,
+                dtEntryDate: null,
+                liReads: [],
+                liWalks: [],
+                objUser: null
+            }        
+        this.entryService.loadEntries(entryObj).subscribe({
+            next: (data) => {
+                if (data != null && data.returnCode === 200) {
+                    const entries: Entry[] = data.objReturnObject;
+                    const eventDates = entries.map(entry => entry.dtEntryDate);
+                    this.eventDates = eventDates;
+                    return eventDates;
+                } else {
+                    console.error('Failed to load entries:', data);
+                    return [];
+                }
+            },
+            error: (error) => {
+                console.error('Error loading entries:', error);
+                return [];
+            }
+        });
+        return [];
+        
+    }
+
     addEvent(day: Date) {
         const event = prompt('Enter event:');
         if (event) {
@@ -71,9 +114,14 @@ export class MonthViewComponent implements OnInit {
         this.loadEvents();
     }
     checkEvent(day: Date) {
-        const dateString = day.toISOString().split('T')[0];
-        const arr = this.eventService.getEvents(dateString);
-        return arr.length;
+        // const dateString = day.toISOString().split('T')[0];
+        // const arr = this.eventService.getEvents(dateString);
+        // return arr.length;
+        const formattedDate = formatDate(day, 'yyyy-MM-dd', 'en-US');
+        if (this.eventDates?.includes(formattedDate)) {
+            return true;
+        }
+        return false;
     }
     showModal() {
         this.showEvents = false;

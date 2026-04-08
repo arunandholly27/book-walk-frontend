@@ -1,5 +1,5 @@
 export interface Walk {
-    walkId: number;
-    strWalkName: string;
-    bdMiles: number;
+    walkId: any;
+    strWalkName: any;
+    bdMiles: any;
 }

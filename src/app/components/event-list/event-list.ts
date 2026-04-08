@@ -11,10 +11,11 @@ import { EntryTable } from '../entry-table/entry-table';
     styleUrls: ['./event-list.css'],
 })
 export class EventListComponent {
-    @Input() events!: string[];
+    @Input() selectedDate!: Date;
     @Output() removeEvent = new EventEmitter<string>();
 
     onRemoveEvent(event: string) {
         this.removeEvent.emit(event);
     }
+    ngOnChanges() {}
 }

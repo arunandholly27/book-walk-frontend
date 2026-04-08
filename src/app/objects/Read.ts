@@ -1,7 +1,5 @@
-import { Book } from "./Book";
-
 export interface Read {
-    readId: number;
-    pages: number;
-    bookId: number;
+    readId: any;
+    pages: any;
+    bookId: any;
 }

@@ -1,6 +1,6 @@
 <div class="month-view-container">
-    <div class="day" *ngFor="let day of days" (click)="selectDate(day)">
-        <div *ngIf="checkEvent(day) >= 1; else noEvents">
+    <div class="day" *ngFor="let day of days">
+        <div *ngIf="checkEvent(day); else noEvents" (click)="selectDate(day)">
             <div>
                 <h3 style="color: rgb(72, 78, 248)">
                     {{ day | date : "EEEE, dd" }}
@@ -8,15 +8,15 @@
             </div>
             <div style="display: flex; justify-content: center">
                 <!-- <button class="add-event-btn" (click)="addEvent(day)">+</button> -->
-                <button class="add-event-btn" (click)="showModal()">+</button>
-                <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
+                <!-- <button class="add-event-btn" (click)="showModal()">+</button>
+                <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal> -->
             </div>
         </div>
 
         <ng-template #noEvents>
             <div>
                 <div>
-                    <h3>
+                    <h3 (click)="selectDate(day)">
                         {{ day | date : "EEEE, dd" }}
                     </h3>
                 </div>
@@ -34,6 +34,5 @@
 <div class="events-container" *ngIf="selectedDate && this.showEvents">
     <h3>Events for {{ selectedDate | date : "EEEE, MMMM dd, yyyy" }}</h3>
 
-    <app-event-list [events]="events[selectedDate.toISOString().split('T')[0]] || []"
-        (removeEvent)="removeEvent(selectedDate, $event)"></app-event-list>
+    <app-event-list [selectedDate]="selectedDate"></app-event-list>
 </div>

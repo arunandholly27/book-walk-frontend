@@ -1,47 +1,40 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { DataService } from './data.service';
+import { Component, OnInit, inject, ViewChild, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgForOf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { EntryService } from '../../services/entry/entry-service';
+import { Entry } from '../../objects/Entry';
+import { TableRow } from '../../objects/TableRow';
+import { CommonModule } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-entry-table',
-  imports: [ReactiveFormsModule, MatTableModule, RouterModule, MatSortModule],
+  imports: [ReactiveFormsModule, MatTableModule, RouterModule,
+     MatSortModule, CommonModule, MatProgressSpinner],
   templateUrl: './entry-table.html',
   styleUrl: './entry-table.css',
 })
-export class EntryTable {
+export class EntryTable implements OnChanges {
+  @Input() selectedDate!: Date;
   private _liveAnnouncer = inject(LiveAnnouncer);
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  readColumns: string[] = ['entryId', 'name', 'book', 'pages'];
+  walkColumns: string[] = ['entryId', 'name', 'walk', 'distance'];
+  readSource = new MatTableDataSource<any>();
+  walkSource = new MatTableDataSource<any>();
 
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('MatSort1') readSort!: MatSort;
+  @ViewChild('MatSort2') walkSort!: MatSort;
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  isLoading = false;
+
+  constructor(private entryService: EntryService,private cdr: ChangeDetectorRef) { }
+
+  ngOnChanges() {
+    this.loadData(this.selectedDate);
   }
 
   /** Announce the change in sort state for assistive technology. */
@@ -56,4 +49,44 @@ export class EntryTable {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
+
+  loadData(date: Date) {
+    this.isLoading = true;
+    const entryObj: Entry = {
+        entryId: null,
+        dtEntryDate: date,
+        liReads: [],
+        liWalks: [],
+        objUser: null
+    }
+
+    this.entryService.loadEntries(entryObj).subscribe({
+      next: (data) => {
+        if (data != null && data.returnCode === 200) {
+          const entries: Entry[] = data.objReturnObject;
+          let i = 1;
+          const readRows: TableRow[] = entries.map(entry => ({
+            entryId: i++,
+            name: `${entry.objUser.strFirstName} ${entry.objUser.strLastName}`,
+            book: `${entry.liReads[0]?.objBook?.strTitle || 'No Book'}`,
+            pages: entry.liReads[0]?.pages,
+            walk: `${entry.liWalks[0]?.strWalkName || 'No Walk'}`,
+            distance: entry.liWalks[0]?.bdMiles || 0.0
+          }));
+          const walkRows = readRows;
+          this.readSource = new MatTableDataSource(readRows);
+          this.readSource.sort = this.readSort;
+          this.walkSource = new MatTableDataSource(walkRows);
+          this.walkSource.sort = this.walkSort;
+          this.isLoading = false;
+        }
+      },error: (error) => {
+      
+        console.error('Error loading entries:', error);
+        this.isLoading = false;
+      
+      },complete: () => {this.isLoading = false; this.cdr.markForCheck();}
+    });
+  }
+    
 }

@@ -21,16 +21,20 @@
 .header button {
     padding: 10px;
     border: none;
-    background-color: #007bff;
+    background-color: #aa60aa;
     color: white;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .header button:hover {
-    background-color: #0056b3;
+    background-color: #5908ab;
 }
 
 .header h2 {
     margin: 0;
+}
+
+.example-spacer {
+     flex: 1 1 auto; 
 }
