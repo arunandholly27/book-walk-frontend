@@ -93,10 +93,11 @@ th.mat-sort-header-sorted {
 
 .cell-book {
   cursor: pointer;
-  hover {
+}
+
+.cell-book:hover {
     color: #5908ab;
     text-decoration: underline;
-  }
 }
 
 ::ng-deep .book-details {
@@ -104,4 +105,27 @@ th.mat-sort-header-sorted {
   flex-direction: column;
   align-items: center;
   padding: 10px;
+}
+
+::ng-deep .mat-mdc-menu-panel {
+  box-shadow: none !important;
+  background-color: transparent !important;
+  max-width: 450px !important;
+}
+
+.overlay {
+    position: absolute;
+    top: 55px;
+    left: 50px;
+    z-index: 2;
+    width: 150px;
+    height: 200px;
+    text-align: left;
+    overflow-y: auto;
+}
+
+.menu-item {
+
+  margin-bottom: 10px;
+
 }

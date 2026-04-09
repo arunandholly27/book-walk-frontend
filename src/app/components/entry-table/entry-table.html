@@ -35,7 +35,7 @@
 
     <!-- Book Column -->
     <ng-container matColumnDef="book">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by book">
+        <th mat-header-cell *matHeaderCellDef>
         Book
         </th>
         <td mat-cell class="cell-book" *matCellDef="let element"
@@ -44,11 +44,15 @@
             (click)="menuTrigger.openMenu()">
             <mat-menu #menu="matMenu" yPosition="above" 
                 class="book-details" [overlapTrigger]="false">
-                <!-- Wrap items in a container to capture mouseleave -->
-                <div class="menu-item">Title: {{element.book.strTitle}}</div>
-                <div class="menu-item">Author: {{element.book.strAuthor}}</div>
-                <div class="menu-item">Current Page: {{element.book.iCurrentPage}}</div>
-                <div class="menu-item">Total Pages: {{element.book.iTotalPages}}</div>
+                <div style="position: relative; display: inline-block; z-index: index 1;">
+                    <img src="assets/book.png" style="width: 300px; height: 300px;">
+                    <div class="overlay">
+                        <div class="menu-item">Title: {{element.book.strTitle}}</div>
+                        <div class="menu-item">Author: {{element.book.strAuthor}}</div>
+                        <div class="menu-item">Current Page: {{element.book.iCurrentPage}}</div>
+                        <div class="menu-item">Total Pages: {{element.book.iTotalPages}}</div>
+                    </div>
+                </div>
             </mat-menu> {{element.book.strTitle}}
         </td>
     </ng-container>
