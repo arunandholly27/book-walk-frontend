@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EntryForm } from '../entry-form/entry-form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class FormModal {
   @Output() close = new EventEmitter<void>();
+  @Input() selectedDate: Date | null = null;
   
   closeModal() {
     this.close.emit();

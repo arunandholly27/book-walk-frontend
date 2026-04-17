@@ -1,3 +1,8 @@
 <div class="event-list-container">
 </div>
+<div style="text-align: right;margin-right: 25px;">
+    <button (click)="onAddEvent(this.selectedDate)" mat-fab class="entry-button" aria-label="Add item">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
 <app-entry-table [selectedDate]="selectedDate"></app-entry-table>

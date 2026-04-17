@@ -7,11 +7,10 @@
 </div> -->
 <div class="modal-overlay" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
-	<button mat-icon-button class="close-button" (click)="closeModal()" 
-		style="display: block;float: right;">
+	<button mat-icon-button class="close-button" (click)="closeModal()">
 	<mat-icon>close</mat-icon>
 	</button>
 	<h1 style="display: block;margin-bottom: 2rem;" mat-dialog-title>New Contest Entry</h1>
-		<app-entry-form (submitEntry)="handleSubmit($event)"></app-entry-form>
+		<app-entry-form [selectedDate]="selectedDate" (submitEntry)="handleSubmit($event)"></app-entry-form>
   </div>
 </div>

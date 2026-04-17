@@ -34,3 +34,16 @@
 .remove-event-btn:hover {
     background-color: #c82333;
 }
+
+.entry-button {
+    background-color: #673AB7;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 1.8rem;
+    text-align: right;
+}
+
+.entry-button:hover {
+    box-shadow: 0px 5px 15px rgba(130, 76, 154, 0.3) !important;
+}

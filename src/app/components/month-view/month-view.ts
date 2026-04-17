@@ -134,7 +134,7 @@ export class MonthViewComponent implements OnInit {
         }
         return false;
     }
-    showModal() {
+    showModal(date: Date) {
         this.showEvents = false;
         this.isModalVisible = true;
     }
