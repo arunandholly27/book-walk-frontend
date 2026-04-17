@@ -20,14 +20,12 @@
                         {{ day | date : "EEEE, dd" }}
                     </h3>
                 </div>
-                <div style="display: flex; justify-content: center">
-                    <!-- <button class="add-event-btn" (click)="addEvent(day)">+</button> -->
-                    <!-- <button class="add-event-btn" (click)="showModal()">+</button> -->
-                    <app-form-modal [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
-                </div>
             </div>
         </ng-template>
     </div>
+</div>
+<div style="display: flex; justify-content: center">
+    <app-form-modal [users]="users" [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
 </div>
 
 <mat-expansion-panel [expanded]="true" *ngIf="selectedDate && this.showEvents">

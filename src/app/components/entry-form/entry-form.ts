@@ -1,14 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-entry-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatFormField, MatSelect, MatOption],
   templateUrl: './entry-form.html',
   styleUrl: './entry-form.css',
 })
 export class EntryForm implements OnInit {
   @Input() selectedDate: Date | null = null;
+  @Input() users: any[] = [];
   @Output() submitEntry = new EventEmitter<any>();
 
   entryForm = new FormGroup({

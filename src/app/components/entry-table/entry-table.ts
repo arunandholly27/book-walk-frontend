@@ -74,7 +74,6 @@ export class EntryTable implements OnChanges {
       next: (data) => {
         if (data != null && data.returnCode === 200) {
           const entries: Entry[] = data.objReturnObject;
-          console.log(entries);
           const readRows: TableRow[] = entries.map(entry => ({
             entryId: entry.entryId,
             displayId: 1,

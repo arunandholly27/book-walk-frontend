@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EntryForm } from '../entry-form/entry-form';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -7,14 +7,19 @@ import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-form-modal',
-  imports: [EntryForm, ReactiveFormsModule, MatDialogModule,  MatIconModule, MatButtonModule],
+  imports: [EntryForm, ReactiveFormsModule, MatDialogModule,
+      MatIconModule, MatButtonModule],
   templateUrl: './form-modal.html',
   styleUrl: './form-modal.css',
 })
-export class FormModal {
+export class FormModal implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Input() selectedDate: Date | null = null;
+  @Input() users: any[] = [];
   
+  ngOnInit() {
+  }
+
   closeModal() {
     this.close.emit();
   }

@@ -1,13 +1,19 @@
 <div style="display: flex; flex-direction: column; gap: 1rem;">
     <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
         <div class="date-user">
-            <div>
+            <div style="margin-top: 0.8rem;">
                 <label for="date" class="form-label">Date:</label>
                 <input id="date" formControlName="entryDate" type="string" class="text-input" />
             </div>
             <div>
                 <label for="user" class="form-label">User:</label>
-                <input id="user" formControlName="user" type="text" class="text-input" />
+                <mat-form-field>
+                <mat-select>
+                    @for (user of users; track user) {
+                    <mat-option [value]="user.strFirstName">{{user.strFirstName}} {{user.strLastName}}</mat-option>
+                    }
+                </mat-select>
+                </mat-form-field>
             </div>
         </div>
         <div class="book" style="display: flex;">

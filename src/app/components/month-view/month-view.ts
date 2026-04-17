@@ -10,6 +10,7 @@ import { Entry } from '../../objects/Entry';
 import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/expansion';
 import { BookService } from '../../services/book/book-service';
 import { Book } from '../../objects/Book';
+import { UserService } from '../../services/user/user-service';
 
 @Component({
     selector: 'app-month-view',
@@ -29,12 +30,14 @@ export class MonthViewComponent implements OnInit {
     isModalVisible = false;
     showEvents = false;
     eventDates: any[] = [];
+    users: any[] = [];
 
-    constructor(private eventService: EventService,
+    constructor(private eventService: EventService, private userService: UserService,
          private entryService: EntryService, private bookService: BookService) { }
 
     ngOnInit() {
         this.days = this.getDaysInMonth();
+        this.loadUsers();
         this.loadEvents();
         this.getEventDates();
         this.loadBooks();
@@ -49,6 +52,19 @@ export class MonthViewComponent implements OnInit {
             }
         });
     }
+
+    loadUsers() {
+        this.userService.loadUsers().subscribe({
+            next: (data) => {
+                this.users = data.objReturnObject;
+                console.log('Users loaded:', this.users);
+            },
+            error: (error) => {
+                console.error('Error loading users:', error);
+            }
+        });
+    }
+
 
     ngOnChanges() {
         this.days = this.getDaysInMonth();
