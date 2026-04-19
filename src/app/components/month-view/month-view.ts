@@ -36,14 +36,13 @@ export class MonthViewComponent implements OnInit {
          private entryService: EntryService, private bookService: BookService) { }
 
     ngOnInit() {
+        this.getEventDates();
         this.days = this.getDaysInMonth();
         this.loadUsers();
-        this.loadEvents();
-        this.getEventDates();
         this.loadBooks();
     }
     testBooks() {
-        this.entryService.searchBooks().subscribe({
+        this.bookService.searchBooks().subscribe({
             next: (data) => {
                 console.log('Books searched:', data);
             },
@@ -65,10 +64,8 @@ export class MonthViewComponent implements OnInit {
         });
     }
 
-
     ngOnChanges() {
         this.days = this.getDaysInMonth();
-        this.loadEvents();
     }
     selectDate(day: Date) {
         this.selectedDate = day;
@@ -88,13 +85,6 @@ export class MonthViewComponent implements OnInit {
         }
 
         return days;
-    }
-
-    loadEvents() {
-        this.days.forEach((day) => {
-            const dateString = day.toISOString().split('T')[0];
-            this.events[dateString] = this.eventService.getEvents(dateString);
-        });
     }
 
     getEventDates(): string[] {
@@ -131,14 +121,12 @@ export class MonthViewComponent implements OnInit {
         if (event) {
             const dateString = day.toISOString().split('T')[0];
             this.eventService.addEvent(dateString, event);
-            this.loadEvents();
         }
     }
 
     removeEvent(day: Date, event: string) {
         const dateString = day.toISOString().split('T')[0];
         this.eventService.removeEvent(dateString, event);
-        this.loadEvents();
     }
     checkEvent(day: Date) {
         // const dateString = day.toISOString().split('T')[0];

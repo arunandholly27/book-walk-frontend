@@ -12,4 +12,8 @@ export class UserService {
   loadUsers() {
     return this.http.get<any>(this.apiUrl + '/all');
   }
+
+  getScores() {
+    return this.http.get<any>(this.apiUrl + '/getScores');
+  }
 }

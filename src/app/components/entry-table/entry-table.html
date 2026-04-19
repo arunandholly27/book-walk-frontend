@@ -84,7 +84,7 @@
         <td class="mat-cell" colspan="4">No reading entries yet!</td>
     </tr>
     </table>
-    <table mat-table [dataSource]="walkSource" matSort #MatSort2="matSort" (matSortChange)="announceSortChange($event)"
+    <table [hidden]="isLoading" mat-table [dataSource]="walkSource" matSort #MatSort2="matSort" (matSortChange)="announceSortChange($event)"
         class="mat-elevation-z8">
 
         <!-- Parent Header Column -->

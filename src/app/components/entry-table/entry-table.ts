@@ -37,7 +37,7 @@ export class EntryTable implements OnChanges {
   @ViewChild('deleteConfirmation') deleteConfirmationTemplate: any;
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
 
-  isLoading = false;
+  isLoading = true;
 
   constructor(private entryService: EntryService,private cdr: ChangeDetectorRef,
       private dialog: MatDialog
@@ -61,7 +61,6 @@ export class EntryTable implements OnChanges {
   }
 
   loadData(date: Date) {
-    this.isLoading = true;
     const entryObj: Entry = {
         entryId: null,
         dtEntryDate: date,

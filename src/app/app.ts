@@ -9,13 +9,14 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
     selector: 'app-root',
     standalone: true,
     imports: [CalendarComponent, MatProgressSpinnerModule, MatToolbarModule,
         MatButtonModule, MatIconModule, MatExpansionModule, MatDialogModule,
-        MatMenuModule
+        MatMenuModule, MatCardModule
     ],
     template: '<app-calendar></app-calendar>',
     styleUrls: ['./app.css'],

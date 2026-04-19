@@ -8,6 +8,30 @@
   <button mat-button routerLink="/about">Statistics</button>
 </mat-toolbar>
 <div class="calendar-container">
+    <div *ngIf="isLoading" class="loading-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
+    <div [hidden]="isLoading">
+        <div class="score-header">
+            <h2>Current Scores</h2>
+        </div>
+        <div class = "card-container">
+            <mat-card class="example-card" appearance="outlined" *ngFor="let score of scores">
+                <mat-card-header class="side-header">
+                    <mat-card-title style="text-align: center;">{{score.strFullName}}</mat-card-title>
+                    <fa-icon *ngIf="score.isLeader" [icon]="faCrown" style="color: purple;"></fa-icon>
+                    <fa-icon *ngIf="!score.isLeader" [icon]="faCrown" style="color: white;"></fa-icon>
+                    <img [src]=score.strPic class="row-image" alt="Entry Image">
+                </mat-card-header>
+                <mat-card-content class="content">
+                    <h2>Pages Read: {{ score.iTotalPages }} pages</h2>
+                    <h2>Distance Walked: {{ score.bdTotalMiles }} mi</h2>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>
+<div class="calendar-container">
     <div class="header">
         <button (click)="changeMonth(-1)">Previous</button>
         <h2>{{ currentDate | date : "MMMM yyyy" }}</h2>
