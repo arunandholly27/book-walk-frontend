@@ -1,41 +1,44 @@
-<mat-toolbar color="primary" style="margin-bottom: 15px;">
-  <span>62 Vern Contest Tracker</span>
-  
-  <!-- This filler fills the remaining space, pushing the buttons to the right -->
-  <span class="example-spacer"></span>
-  
-  <button mat-button routerLink="/home">Calendar</button>
-  <button mat-button routerLink="/about">Statistics</button>
-</mat-toolbar>
-<div class="calendar-container">
-    <div *ngIf="isLoading" class="loading-container">
-        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </div>
-    <div [hidden]="isLoading">
-        <div class="score-header">
-            <h2>Current Scores</h2>
+<div [class.content-container]="!isToggled">
+    <mat-toolbar color="primary" style="margin-bottom: 15px;">
+    <span style="padding-right: 30px;">62 Vern Contest Tracker</span>
+    <mat-slide-toggle [checked]="helperService.isToggled()" 
+                  (change)="toggle()"><span class="toggle">Accessible Background</span></mat-slide-toggle>
+    <!-- This filler fills the remaining space, pushing the buttons to the right -->
+    <span class="example-spacer"></span>
+    
+    <button mat-button>Calendar</button>
+    <button mat-button (click)="nav()">Statistics</button>
+    </mat-toolbar>
+    <div class="main-container">
+        <div *ngIf="isLoading" class="loading-container">
+            <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         </div>
-        <div class = "card-container">
-            <mat-card class="example-card" appearance="outlined" *ngFor="let score of scores">
-                <mat-card-header class="side-header">
-                    <mat-card-title style="text-align: center;">{{score.strFullName}}</mat-card-title>
-                    <fa-icon *ngIf="score.isLeader" [icon]="faCrown" style="color: purple;"></fa-icon>
-                    <fa-icon *ngIf="!score.isLeader" [icon]="faCrown" style="color: white;"></fa-icon>
-                    <img [src]=score.strPic class="row-image" alt="Entry Image">
-                </mat-card-header>
-                <mat-card-content class="content">
-                    <h2>Pages Read: {{ score.iTotalPages }} pages</h2>
-                    <h2>Distance Walked: {{ score.bdTotalMiles }} mi</h2>
-                </mat-card-content>
-            </mat-card>
+        <div [hidden]="isLoading">
+            <div class="score-header">
+                <h2>Current Scores</h2>
+            </div>
+            <div class = "card-container">
+                <mat-card class="example-card" appearance="outlined" *ngFor="let score of scores">
+                    <mat-card-header class="side-header">
+                        <mat-card-title style="text-align: center;">{{score.strFullName}}</mat-card-title>
+                        <fa-icon *ngIf="score.isLeader" [icon]="faCrown" style="color: purple;"></fa-icon>
+                        <fa-icon *ngIf="!score.isLeader" [icon]="faCrown" style="color: #e9e9e9;"></fa-icon>
+                        <img [src]=score.strPic class="row-image" alt="Entry Image">
+                    </mat-card-header>
+                    <mat-card-content class="content">
+                        <h2>Pages Read: {{ score.iTotalPages }} pages</h2>
+                        <h2>Distance Walked: {{ score.bdTotalMiles }} mi</h2>
+                    </mat-card-content>
+                </mat-card>
+            </div>
         </div>
     </div>
-</div>
-<div class="calendar-container">
-    <div class="header">
-        <button (click)="changeMonth(-1)">Previous</button>
-        <h2>{{ currentDate | date : "MMMM yyyy" }}</h2>
-        <button (click)="changeMonth(1)">Next</button>
+    <div class="calendar-container">
+        <div class="header">
+            <button (click)="changeMonth(-1)">Previous</button>
+            <h2>{{ currentDate | date : "MMMM yyyy" }}</h2>
+            <button (click)="changeMonth(1)">Next</button>
+        </div>
+        <app-month-view [date]="currentDate"></app-month-view>
     </div>
-    <app-month-view [date]="currentDate"></app-month-view>
 </div>

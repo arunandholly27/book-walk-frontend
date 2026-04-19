@@ -1,0 +1,16 @@
+<div [class.content-container]="!isToggled">
+    <mat-toolbar color="primary" style="margin-bottom: 15px;">
+    <span style="padding-right: 30px;">62 Vern Contest Tracker</span>
+    <mat-slide-toggle [checked]="helperService.isToggled()" 
+                  (change)="toggle()"><span class="toggle">Accessible Background</span></mat-slide-toggle>
+    <!-- This filler fills the remaining space, pushing the buttons to the right -->
+    <span class="example-spacer"></span>
+    
+    <button mat-button (click)="nav()">Calendar</button>
+    <button mat-button>Statistics</button>
+    </mat-toolbar>
+    <div class="statistics-container">
+        <h1 style="text-align: center;">Statistics Page</h1>
+        <p style="text-align: center;">This page is under construction. Check back later for updates!</p>
+    </div>
+</div>

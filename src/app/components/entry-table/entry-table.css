@@ -129,10 +129,3 @@ th.mat-sort-header-sorted {
   margin-bottom: 10px;
 
 }
-
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px; /* Adjust as needed */
-}

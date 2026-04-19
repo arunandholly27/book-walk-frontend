@@ -115,19 +115,7 @@ export class MonthViewComponent implements OnInit {
         return [];
         
     }
-
-    addEvent(day: Date) {
-        const event = prompt('Enter event:');
-        if (event) {
-            const dateString = day.toISOString().split('T')[0];
-            this.eventService.addEvent(dateString, event);
-        }
-    }
-
-    removeEvent(day: Date, event: string) {
-        const dateString = day.toISOString().split('T')[0];
-        this.eventService.removeEvent(dateString, event);
-    }
+    
     checkEvent(day: Date) {
         // const dateString = day.toISOString().split('T')[0];
         // const arr = this.eventService.getEvents(dateString);
