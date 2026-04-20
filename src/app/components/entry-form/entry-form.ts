@@ -24,9 +24,9 @@ export class EntryForm implements OnInit {
     entryDate: new FormControl<string | null>(this.selectedDate ? this.selectedDate.toISOString().split('T')[0] : null, Validators.required),
     user: new FormControl('', Validators.required),
     book: new FormControl(''),
-    pages: new FormControl(0),
+    pages: new FormControl(''),
     walk: new FormControl(''),
-    miles: new FormControl(0)
+    miles: new FormControl('')
   });
 
   onSubmit() {

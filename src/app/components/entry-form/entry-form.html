@@ -19,7 +19,7 @@
         <div style="font-size: x-small; margin-bottom: 5px;">Entries can contain: <b>Book Name + Pages Read</b> and/or <b>Walk Description + Miles Walked</b></div>
         <div style="flex-wrap: wrap;">
             <div class="book" style="display: block;">
-                <div style="margin-bottom: 0.5rem;">
+                <div style="margin-bottom: 0.5rem; margin-top:1rem;">
                     <label for="book" class="form-label">Book:</label>
                     <mat-form-field>
                         <mat-select (selectionChange)="onSelectBook($event)" formControlName="book">
@@ -34,12 +34,14 @@
                 </div>
             </div>
             <div class="walk" style="display: inline-block;margin-left: 10px;margin-bottom: 1rem;">
-                <div style="margin-bottom: 0.5rem;">
+                <div style="margin-bottom: 0.5rem; padding-top:0px; vertial-align:top;">
+                    <br>
                     <mat-label for="walk" class="form-label">Walk Description:</mat-label>
                     <textarea matInput id="walk" formControlName="walk" type="text" class="walk-input"></textarea>
                 </div>
             </div>
         </div>
+        <br>
         <div class="pages-miles" style="display: block; margin-top: 7rem;margin-left: 10px;margin-bottom: 1rem;">
             <div style="float: inline-start;" *ngIf="this.bookSelected">
                 <label for="pages" class="form-label">Pages Read:</label>
@@ -53,7 +55,7 @@
     </form>
 </div>
 <div>
-    <div style="width: 50%; text-align: right;margin-top: 1.3rem;">
+    <div style="width: 50% float:inline-end;margin-top: 1.3rem;">
         <button type="submit" [disabled]="this.isFormValid() === false" mat-raised-button color="primary"
            (click)="onSubmit()" style="font-size: medium;">Submit</button>
     </div>

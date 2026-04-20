@@ -7,6 +7,7 @@
 .form-label {
     margin-right: 10px;
     font-size: large;
+    display: inline;
 }
 
 .text-input {
@@ -20,13 +21,13 @@
     color: black;
     max-width: 6.5rem;
     height: 50px;
-    vertical-align: top;
+    vertical-align: middle;
     background-color: #F6F6F6;
 }
 .num-input {
     font-size: large;
     color: black;
-    max-width: 3rem;
+    max-width: 4rem;
     background-color: #F6F6F6;
     border-width: 0.1px;
 }

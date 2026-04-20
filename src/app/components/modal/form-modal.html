@@ -10,7 +10,7 @@
 	<button mat-icon-button class="close-button" (click)="closeModal()">
 	<mat-icon>close</mat-icon>
 	</button>
-	<h1 style="display: block;margin-bottom: 2rem;" mat-dialog-title>New Contest Entry</h1>
+	<h1 style="margin-bottom:2rem;margin-left:3.5rem;" mat-dialog-title>New Contest Entry</h1>
 		<app-entry-form [users]="users" [books]="books" [selectedDate]="selectedDate" (submitEntry)="handleSubmit($event)"></app-entry-form>
   </div>
 </div>
