@@ -11,6 +11,7 @@ import { MatExpansionPanel, MatExpansionPanelHeader } from '@angular/material/ex
 import { BookService } from '../../services/book/book-service';
 import { Book } from '../../objects/Book';
 import { UserService } from '../../services/user/user-service';
+import { GoogleBook } from '../../objects/GoogleBook';
 
 @Component({
     selector: 'app-month-view',
@@ -31,6 +32,7 @@ export class MonthViewComponent implements OnInit {
     showEvents = false;
     eventDates: any[] = [];
     users: any[] = [];
+    books: any[] = [];
 
     constructor(private eventService: EventService, private userService: UserService,
          private entryService: EntryService, private bookService: BookService) { }
@@ -42,9 +44,31 @@ export class MonthViewComponent implements OnInit {
         this.loadBooks();
     }
     testBooks() {
-        this.bookService.searchBooks().subscribe({
+        this.bookService.searchBooks('Everyone on this train').subscribe({
             next: (data) => {
-                console.log('Books searched:', data);
+                const counts: Record<string, number> = {};
+                let maxItem = data.items[0];
+                let maxCount = 0;
+                data.items.forEach((item) => {
+                    const pageCount = item.volumeInfo.pageCount || 0;
+                    if (pageCount != 0) {
+                        counts[pageCount] = (counts[pageCount] || 0) + 1;
+                        if (counts[pageCount] > maxCount) {
+                            maxCount = counts[pageCount];
+                            maxItem = item;
+                        }
+                    }
+                });
+                console.log('Most common page count:', maxItem.volumeInfo.pageCount);
+                let book: Book = {
+                    bookId: null,
+                    strTitle: maxItem.volumeInfo.title,
+                    strAuthor: maxItem.volumeInfo.authors[0] || 'Unknown Author',
+                    iTotalPages: maxItem.volumeInfo.pageCount || 0,
+                    iCurrentPage: 0,
+                    liReads: []
+                }
+                console.log('Book found:', book);
             },
             error: (error) => {
                 console.error('Error searching books:', error);
@@ -117,9 +141,6 @@ export class MonthViewComponent implements OnInit {
     }
     
     checkEvent(day: Date) {
-        // const dateString = day.toISOString().split('T')[0];
-        // const arr = this.eventService.getEvents(dateString);
-        // return arr.length;
         const formattedDate = formatDate(day, 'yyyy-MM-dd', 'en-US');
         if (this.eventDates?.includes(formattedDate)) {
             return true;
@@ -127,6 +148,7 @@ export class MonthViewComponent implements OnInit {
         return false;
     }
     showModal(date: Date) {
+        scroll(0,0);
         this.showEvents = false;
         this.isModalVisible = true;
     }
@@ -138,6 +160,7 @@ export class MonthViewComponent implements OnInit {
         this.bookService.loadBooks().subscribe({
             next: (data) => {
                 const books: Book[] = data.objReturnObject;
+                this.books = books;
                 console.log('Books loaded:', books);
             },
             error: (error) => {

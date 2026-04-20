@@ -16,6 +16,7 @@ export class FormModal implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Input() selectedDate: Date | null = null;
   @Input() users: any[] = [];
+  @Input() books: any[] = [];
   
   ngOnInit() {
   }

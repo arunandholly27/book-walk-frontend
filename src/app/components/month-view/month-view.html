@@ -25,7 +25,7 @@
     </div>
 </div>
 <div style="display: flex; justify-content: center">
-    <app-form-modal [users]="users" [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
+    <app-form-modal [users]="users" [books]="books" [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
 </div>
 
 <mat-expansion-panel [expanded]="true" *ngIf="selectedDate && this.showEvents">

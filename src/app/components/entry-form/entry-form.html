@@ -8,30 +8,43 @@
             <div>
                 <label for="user" class="form-label">User:</label>
                 <mat-form-field>
-                <mat-select>
-                    @for (user of users; track user) {
-                    <mat-option [value]="user.strFirstName">{{user.strFirstName}} {{user.strLastName}}</mat-option>
-                    }
-                </mat-select>
+                    <mat-select>
+                        @for (user of users; track user) {
+                        <mat-option [value]="user.strFirstName">{{user.strFirstName}} {{user.strLastName}}</mat-option>
+                        }
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>
-        <div class="book" style="display: flex;">
-            <div style="margin-bottom: 0.5rem;">
-                <label for="book" class="form-label">Book:</label>
-                <input id="book" formControlName="book" type="text" class="text-input" />
+        <div style="flex-wrap: wrap;">
+            <div class="book" style="display: block;">
+                <div style="margin-bottom: 0.5rem;">
+                    <label for="book" class="form-label">Book:</label>
+                    <mat-form-field>
+                        <mat-select (selectionChange)="onSelectBook($event)" formControlName="book">
+                            @for (book of books; track book) {
+                            <mat-option [value]="book">{{book.strTitle}}</mat-option>
+                            }
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="this.bookSelected">
+                    <p style="text-align: center;">Current Page: {{this.bookSelected.iCurrentPage}}/{{this.bookSelected.iTotalPages}}</p>
+                </div>
             </div>
-            <div>
+            <div class="walk" style="display: inline-block; margin-top: 1rem;margin-left: 10px;margin-bottom: 1rem;">
+                <div style="margin-bottom: 0.5rem;">
+                    <mat-label for="walk" class="form-label">Walk Name:</mat-label>
+                    <textarea matInput id="walk" formControlName="walk" type="text" class="walk-input"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="pages-miles" style="display: block; margin-top: 7rem;margin-left: 10px;margin-bottom: 1rem;">
+            <div style="float: inline-start;">
                 <label for="pages" class="form-label">Pages Read:</label>
                 <input id="pages" formControlName="pages" type="number" class="num-input" />
             </div>
-        </div>
-        <div class="walk" style="display: flex;">
-            <div style="margin-bottom: 0.5rem;">
-                <label for="walk" class="form-label">Walk Name:</label>
-                <input id="walk" formControlName="walk" type="text" class="text-input" />
-            </div>
-            <div>
+            <div style="float: inline-start; padding-left: 100px;">
                 <label for="miles" class="form-label">Miles Walked:</label>
                 <input id="miles" formControlName="miles" type="number" class="num-input" />
             </div>

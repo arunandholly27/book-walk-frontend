@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GoogleBook } from '../../objects/GoogleBook';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +17,14 @@ export class BookService {
     return this.http.get<any>(this.apiUrl + '/getAll');
   }
   
-  searchBooks() {
-    const url = `${this.googleBooksApiUrl}?q=subject:fiction&key=${this.googleApiKey}`;
-    return this.http.get(url);
+  searchBooks(title: string, author?: string): Observable<GoogleBook> {
+    let url = `${this.googleBooksApiUrl}?q=intitle:${title}`;
+    if (author) {
+      url += `+inauthor:${author}`;
+    }
+    url += `&key=${this.googleApiKey}`;
+    console.log('Searching books with URL:', url);
+    return this.http.get<GoogleBook>(url);
   }
 
 }

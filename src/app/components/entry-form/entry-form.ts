@@ -1,18 +1,23 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-entry-form',
-  imports: [ReactiveFormsModule, MatFormField, MatSelect, MatOption],
+  imports: [ReactiveFormsModule, MatFormField, MatLabel,
+     MatSelect, MatOption, CommonModule, FormsModule],
   templateUrl: './entry-form.html',
   styleUrl: './entry-form.css',
 })
 export class EntryForm implements OnInit {
   @Input() selectedDate: Date | null = null;
   @Input() users: any[] = [];
+  @Input() books: any[] = [];
   @Output() submitEntry = new EventEmitter<any>();
+
+  bookSelected: any = null;
 
   entryForm = new FormGroup({
     entryDate: new FormControl<string | null>(this.selectedDate ? this.selectedDate.toISOString().split('T')[0] : null, Validators.required),
@@ -27,6 +32,11 @@ export class EntryForm implements OnInit {
     if (this.entryForm.valid) {
       this.submitEntry.emit(this.entryForm.value);
     }
+  }
+
+  onSelectBook(event: any) {
+    this.bookSelected = event.value;
+    console.log('Selected book:', this.bookSelected);
   }
 
   ngOnInit(): void {

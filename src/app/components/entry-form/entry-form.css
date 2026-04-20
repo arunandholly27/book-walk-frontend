@@ -14,10 +14,21 @@
     color: black;
     max-width: 9rem;
 }
+
+.walk-input {
+    font-size: large;
+    color: black;
+    max-width: 9rem;
+    height: 50px;
+    vertical-align: top;
+    background-color: #F6F6F6;
+}
 .num-input {
     font-size: large;
     color: black;
     max-width: 3rem;
+    background-color: #F6F6F6;
+    border-width: 0.1px;
 }
 .book {
     display: block;
@@ -27,7 +38,14 @@
 }
 .walk {
     display: block;
-    float: inline-end;
+    float: inline-start;
     max-width: 50%;
     text-align: left;
+}
+.pages-miles {
+    display: block;
+    width: 100%;
+    text-align: left;
+    justify-content: center;
+    padding-left: 30px;
 }
