@@ -1,13 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-entry-form',
   imports: [ReactiveFormsModule, MatFormField, MatLabel,
-     MatSelect, MatOption, CommonModule, FormsModule],
+     MatSelect, MatOption, CommonModule, FormsModule, MatButton],
   templateUrl: './entry-form.html',
   styleUrl: './entry-form.css',
 })
@@ -49,4 +50,16 @@ export class EntryForm implements OnInit {
     }
   }
 
+  isFormValid(): boolean {
+    if (this.entryForm.get('user')?.invalid || this.entryForm.get('entryDate')?.invalid) {
+      return false;
+    }
+    if (this.entryForm.get('book')?.value && this.entryForm.get('pages')?.value) {
+      return true;
+    }
+    else if (this.entryForm.get('walk')?.value && this.entryForm.get('miles')?.value) {
+      return true;
+    }
+    return false;
+  }
 }

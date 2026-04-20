@@ -8,14 +8,15 @@
             <div>
                 <label for="user" class="form-label">User:</label>
                 <mat-form-field>
-                    <mat-select>
+                    <mat-select formControlName="user">
                         @for (user of users; track user) {
-                        <mat-option [value]="user.strFirstName">{{user.strFirstName}} {{user.strLastName}}</mat-option>
+                        <mat-option [value]="user">{{user.strFirstName}} {{user.strLastName}}</mat-option>
                         }
                     </mat-select>
                 </mat-form-field>
             </div>
         </div>
+        <div style="font-size: x-small; margin-bottom: 5px;">Entries can contain: <b>Book Name + Pages Read</b> and/or <b>Walk Description + Miles Walked</b></div>
         <div style="flex-wrap: wrap;">
             <div class="book" style="display: block;">
                 <div style="margin-bottom: 0.5rem;">
@@ -32,19 +33,19 @@
                     <p style="text-align: center;">Current Page: {{this.bookSelected.iCurrentPage}}/{{this.bookSelected.iTotalPages}}</p>
                 </div>
             </div>
-            <div class="walk" style="display: inline-block; margin-top: 1rem;margin-left: 10px;margin-bottom: 1rem;">
+            <div class="walk" style="display: inline-block;margin-left: 10px;margin-bottom: 1rem;">
                 <div style="margin-bottom: 0.5rem;">
-                    <mat-label for="walk" class="form-label">Walk Name:</mat-label>
+                    <mat-label for="walk" class="form-label">Walk Description:</mat-label>
                     <textarea matInput id="walk" formControlName="walk" type="text" class="walk-input"></textarea>
                 </div>
             </div>
         </div>
         <div class="pages-miles" style="display: block; margin-top: 7rem;margin-left: 10px;margin-bottom: 1rem;">
-            <div style="float: inline-start;">
+            <div style="float: inline-start;" *ngIf="this.bookSelected">
                 <label for="pages" class="form-label">Pages Read:</label>
                 <input id="pages" formControlName="pages" type="number" class="num-input" />
             </div>
-            <div style="float: inline-start; padding-left: 100px;">
+            <div style="float: inline-start; padding-left: 100px;" *ngIf="entryForm.get('walk')?.value">
                 <label for="miles" class="form-label">Miles Walked:</label>
                 <input id="miles" formControlName="miles" type="number" class="num-input" />
             </div>
@@ -52,8 +53,8 @@
     </form>
 </div>
 <div>
-    <div  style="width: 50%; text-align: right;margin-top: 1rem;">
-        <button type="submit" [disabled]="!entryForm.valid" 
+    <div style="width: 50%; text-align: right;margin-top: 1.3rem;">
+        <button type="submit" [disabled]="this.isFormValid() === false" mat-raised-button color="primary"
            (click)="onSubmit()" style="font-size: medium;">Submit</button>
     </div>
 </div>
