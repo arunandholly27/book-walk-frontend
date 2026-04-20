@@ -14,6 +14,8 @@ import { UserService } from '../../services/user/user-service';
 import { GoogleBook } from '../../objects/GoogleBook';
 import { Submit } from '../../objects/Submit';
 import { DisplayDate } from '../../objects/DisplayDate';
+import { HelperService } from '../../services/helper/helper-service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
     selector: 'app-month-view',
@@ -39,11 +41,12 @@ export class MonthViewComponent implements OnInit {
     books: any[] = [];
 
     constructor(private userService: UserService, private changeDetector: ChangeDetectorRef,
-         private entryService: EntryService, private bookService: BookService) { }
+         private entryService: EntryService, private bookService: BookService, private helperService: HelperService) { }
 
-    ngOnInit() {
-        this.getEventDates();
-        this.days = this.getDaysInMonth();
+    async ngOnInit() {
+        this.eventDates = await this.getEventDates();
+        this.days = await this.getDaysInMonth();
+        console.log('Event dates:', this.eventDates);
         this.loadUsers();
         this.loadBooks();
     }
@@ -92,9 +95,9 @@ export class MonthViewComponent implements OnInit {
         });
     }
 
-    ngOnChanges() {
-        this.getEventDates();
-        this.days = this.getDaysInMonth();
+    async ngOnChanges() {
+        this.eventDates = await this.getEventDates();
+        this.days = await this.getDaysInMonth();
         this.changeDetector.detectChanges();
     }
     selectDate(day: Date) {
@@ -104,7 +107,7 @@ export class MonthViewComponent implements OnInit {
             this.expansionPanel.open();
         }
     }
-    getDaysInMonth(): DisplayDate[] {
+    getDaysInMonth(): Promise<DisplayDate[]> {
         const days: DisplayDate[] = [];
         const year = this.date.getFullYear();
         const month = this.date.getMonth();
@@ -117,36 +120,18 @@ export class MonthViewComponent implements OnInit {
             });
         }
         this.changeDetector.detectChanges();
-        return days;
+        return Promise.resolve(days);
     }
 
-    getEventDates(): string[] {
-        const entryObj: Entry = {
-                entryId: null,
-                dtEntryDate: null,
-                liReads: [],
-                liWalks: [],
-                objUser: null
-            }        
-        this.entryService.loadEntries(entryObj).subscribe({
-            next: (data) => {
-                if (data != null && data.returnCode === 200) {
-                    const entries: Entry[] = data.objReturnObject;
-                    const eventDates = entries.map(entry => entry.dtEntryDate);
-                    this.eventDates = eventDates;
-                    return eventDates;
-                } else {
-                    console.error('Failed to load entries:', data);
-                    return [];
-                }
-            },
-            error: (error) => {
-                console.error('Error loading entries:', error);
-                return [];
-            }
-        });
-        return [];
-        
+    async getEventDates(): Promise<string[]> {
+        let returnObj  = await firstValueFrom(this.helperService.loadEntries());
+        if (returnObj != null && returnObj.returnCode === 200) {
+            this.eventDates = returnObj.objReturnObject.map((entry: Entry) => formatDate(entry.dtEntryDate, 'yyyy-MM-dd', 'en-US'));
+        } else {
+            console.error('Failed to load entries:', returnObj);
+            this.eventDates = [];
+        }
+        return this.eventDates;
     }
     
     checkEvent(day: Date) {
