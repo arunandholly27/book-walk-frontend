@@ -1,5 +1,5 @@
 //src/app/components/month-view/month-view.component.ts
-import { ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormModal } from '../modal/form-modal';
 import { CommonModule, formatDate } from '@angular/common';
 import { EventListComponent } from '../event-list/event-list';
@@ -12,6 +12,8 @@ import { BookService } from '../../services/book/book-service';
 import { Book } from '../../objects/Book';
 import { UserService } from '../../services/user/user-service';
 import { GoogleBook } from '../../objects/GoogleBook';
+import { Submit } from '../../objects/Submit';
+import { DisplayDate } from '../../objects/DisplayDate';
 
 @Component({
     selector: 'app-month-view',
@@ -25,7 +27,9 @@ export class MonthViewComponent implements OnInit {
     @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
 
     @Input() date!: Date;
-    days: Date[] = [];
+    @Output() entryCreated = new EventEmitter<void>();
+    refreshTrigger = new EventEmitter<void>();
+    days: DisplayDate[] = [];
     events: { [key: string]: string[] } = {};
     selectedDate: Date | null = null;
     isModalVisible = false;
@@ -34,7 +38,7 @@ export class MonthViewComponent implements OnInit {
     users: any[] = [];
     books: any[] = [];
 
-    constructor(private eventService: EventService, private userService: UserService,
+    constructor(private userService: UserService, private changeDetector: ChangeDetectorRef,
          private entryService: EntryService, private bookService: BookService) { }
 
     ngOnInit() {
@@ -89,7 +93,9 @@ export class MonthViewComponent implements OnInit {
     }
 
     ngOnChanges() {
+        this.getEventDates();
         this.days = this.getDaysInMonth();
+        this.changeDetector.detectChanges();
     }
     selectDate(day: Date) {
         this.selectedDate = day;
@@ -98,16 +104,19 @@ export class MonthViewComponent implements OnInit {
             this.expansionPanel.open();
         }
     }
-    getDaysInMonth(): Date[] {
-        const days = [];
+    getDaysInMonth(): DisplayDate[] {
+        const days: DisplayDate[] = [];
         const year = this.date.getFullYear();
         const month = this.date.getMonth();
         const numDays = new Date(year, month + 1, 0).getDate();
 
         for (let i = 1; i <= numDays; i++) {
-            days.push(new Date(year, month, i));
+            days.push({
+                date: new Date(year, month, i),
+                hasEvent: this.checkEvent(new Date(year, month, i))
+            });
         }
-
+        this.changeDetector.detectChanges();
         return days;
     }
 
@@ -152,7 +161,44 @@ export class MonthViewComponent implements OnInit {
         this.showEvents = false;
         this.isModalVisible = true;
     }
-    hideModal() {
+    hideModal(entryData?: any) {
+        if (entryData) {
+            const submitData: Submit = {
+                entryId: null,
+                dtEntryDate: this.selectedDate,
+                liReads: entryData.book 
+                    ? [{ 
+                        readId: null,
+                        pages: entryData.pages,
+                        objBook: { 
+                            bookId: entryData.book.bookId 
+                        } 
+                    }] 
+                    : [],
+                liWalks: entryData.walk
+                    ? [{
+                        walkId: null,
+                        strWalkName: entryData.walk,
+                        bdMiles: entryData.miles
+                    }]
+                    : [],
+                objUser: {
+                    userId: entryData.user.userId
+                }
+            };
+            console.log('Submitting entry:', submitData);
+            this.entryService.createEntry(submitData).subscribe({
+                next: (data) => {
+                    console.log('Entry created successfully:', data);
+                    this.entryCreated.emit();
+                    this.refreshTrigger.emit();
+                    this.ngOnInit();
+                },
+                error: (error) => {
+                    console.error('Error creating entry:', error);
+                }
+            });
+        }
         this.isModalVisible = false;
         this.showEvents = true;
     }
@@ -167,5 +213,11 @@ export class MonthViewComponent implements OnInit {
                 console.error('Error loading books:', error);
             }
         });
+    }
+    onRemoveEvent() {
+        console.log('Event removed, refreshing month view');
+        this.entryCreated.emit();
+        this.refreshTrigger.emit();
+        this.ngOnInit();
     }
 }

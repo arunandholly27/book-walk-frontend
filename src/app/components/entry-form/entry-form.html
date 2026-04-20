@@ -2,13 +2,13 @@
     <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
         <div class="date-user">
             <div style="margin-top: 0.8rem;">
-                <label for="date" class="form-label">Date:</label>
-                <input id="date" formControlName="entryDate" type="string" class="text-input" />
+                <label for="entryDate" class="form-label">Date:</label>
+                <input id="entryDate" formControlName="entryDate" type="string" class="text-input" />
             </div>
             <div>
                 <label for="user" class="form-label">User:</label>
                 <mat-form-field>
-                    <mat-select formControlName="user">
+                    <mat-select formControlName="user" placeholder="Select a User">
                         @for (user of users; track user) {
                         <mat-option [value]="user">{{user.strFirstName}} {{user.strLastName}}</mat-option>
                         }
@@ -22,7 +22,8 @@
                 <div style="margin-bottom: 0.5rem; margin-top:1rem;">
                     <label for="book" class="form-label">Book:</label>
                     <mat-form-field>
-                        <mat-select (selectionChange)="onSelectBook($event)" formControlName="book">
+                        <mat-select (selectionChange)="onSelectBook($event)" formControlName="book" placeholder="Select a Book">
+                            <mat-option [value]="null"><i>Select a Book</i></mat-option>
                             @for (book of books; track book) {
                             <mat-option [value]="book">{{book.strTitle}}</mat-option>
                             }
@@ -34,7 +35,7 @@
                 </div>
             </div>
             <div class="walk" style="display: inline-block;margin-left: 10px;margin-bottom: 1rem;">
-                <div style="margin-bottom: 0.5rem; padding-top:0px; vertial-align:top;">
+                <div style="margin-bottom: 0.5rem; padding-top:0px;">
                     <br>
                     <mat-label for="walk" class="form-label">Walk Description:</mat-label>
                     <textarea matInput id="walk" formControlName="walk" type="text" class="walk-input"></textarea>
@@ -55,7 +56,7 @@
     </form>
 </div>
 <div>
-    <div style="width: 50% float:inline-end;margin-top: 1.3rem;">
+    <div style="width:50%;text-align: right;margin-left:2rem; margin-top:1.3rem;">
         <button type="submit" [disabled]="this.isFormValid() === false" mat-raised-button color="primary"
            (click)="onSubmit()" style="font-size: medium;">Submit</button>
     </div>

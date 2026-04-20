@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ViewChild, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ViewChild, Input, OnChanges, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -25,6 +25,8 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 })
 export class EntryTable implements OnChanges {
   @Input() selectedDate!: Date;
+  @Input() refreshTrigger: any;
+  @Output() entryDeleted = new EventEmitter<void>();
   private _liveAnnouncer = inject(LiveAnnouncer);
 
   readColumns: string[] = ['displayId', 'pic', 'name', 'book', 'pages', 'delete'];
@@ -72,6 +74,7 @@ export class EntryTable implements OnChanges {
     this.entryService.loadEntries(entryObj).subscribe({
       next: (data) => {
         if (data != null && data.returnCode === 200) {
+          console.log('Entries loaded successfully:', data.objReturnObject);
           const entries: Entry[] = data.objReturnObject;
           const readRows: TableRow[] = entries.map(entry => ({
             entryId: entry.entryId,
@@ -83,7 +86,7 @@ export class EntryTable implements OnChanges {
             distance: entry.liWalks[0]?.bdMiles || 0.0,
             pic: entry.objUser?.strPic != null 
               ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
-          })).filter(row => row.book !== 'No Book').map((row, index) => ({ ...row, displayId: index + 1 }));
+          })).filter(row => row.book != undefined).map((row, index) => ({ ...row, displayId: index + 1 }));
           const walkRows = entries.map(entry => ({
             entryId: entry.entryId,
             displayId: 1,
@@ -94,8 +97,7 @@ export class EntryTable implements OnChanges {
             distance: entry.liWalks[0]?.bdMiles || 0.0,
             pic: entry.objUser?.strPic != null 
               ? 'assets/' + entry.objUser.strPic : 'assets/default.jpg'
-          })).filter(row => row.walk !== 'No Walk').map((row, index) => ({ ...row, displayId: index + 1 }));
-          console.log('Read Rows:', readRows);
+          })).filter(row => row.walk != 'No Walk').map((row, index) => ({ ...row, displayId: index + 1 }));
           this.readSource = new MatTableDataSource(readRows);
           this.readSource.sort = this.readSort;
           this.walkSource = new MatTableDataSource(walkRows);
@@ -127,6 +129,7 @@ export class EntryTable implements OnChanges {
           next: (data) => {
             if (data != null && data.returnCode === 200) {
               console.log('Entry deleted successfully');
+              this.entryDeleted.emit();
               this.loadData(this.selectedDate);
             } else {
               console.error('Failed to delete entry:', data);

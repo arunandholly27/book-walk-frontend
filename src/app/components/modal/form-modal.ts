@@ -21,12 +21,11 @@ export class FormModal implements OnInit {
   ngOnInit() {
   }
 
-  closeModal() {
-    this.close.emit();
+  closeModal(entryData?: any) {
+    this.close.emit(entryData);
   }
 
   handleSubmit(entryData: any) {
-    console.log('Entry submitted:', entryData);
-    this.closeModal();
+    this.closeModal(entryData);
   }
 }

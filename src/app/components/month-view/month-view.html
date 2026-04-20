@@ -1,9 +1,14 @@
 <div class="month-view-container">
     <div class="day" *ngFor="let day of days">
-        <div *ngIf="checkEvent(day); else noEvents" (click)="selectDate(day)">
-            <div>
+        <div (click)="selectDate(day.date)">
+            <div *ngIf="day.hasEvent">
                 <h3 style="color: rgb(72, 78, 248)">
-                    {{ day | date : "EEEE, dd" }}
+                    {{ day.date | date : "EEEE, dd" }}
+                </h3>
+            </div>
+            <div *ngIf="!day.hasEvent">
+                <h3>
+                    {{ day.date | date : "EEEE, dd" }}
                 </h3>
             </div>
             <div style="display: flex; justify-content: center">
@@ -12,20 +17,10 @@
                 <app-form-modal *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal> -->
             </div>
         </div>
-
-        <ng-template #noEvents>
-            <div (click)="selectDate(day)">
-                <div>
-                    <h3>
-                        {{ day | date : "EEEE, dd" }}
-                    </h3>
-                </div>
-            </div>
-        </ng-template>
     </div>
 </div>
 <div style="display: flex; justify-content: center">
-    <app-form-modal [users]="users" [books]="books" [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal()"></app-form-modal>
+    <app-form-modal [users]="users" [books]="books" [selectedDate]="selectedDate" *ngIf="isModalVisible" (close)="hideModal($event)"></app-form-modal>
 </div>
 
 <mat-expansion-panel [expanded]="true" *ngIf="selectedDate && this.showEvents">
@@ -34,6 +29,6 @@
   </mat-expansion-panel-header>
   <!-- Events section -->
 <div class="events-container">
-    <app-event-list (addEvent)="showModal(selectedDate)" [selectedDate]="selectedDate"></app-event-list>
+    <app-event-list (removeEvent)="onRemoveEvent()" (addEvent)="showModal(selectedDate)" [selectedDate]="selectedDate"></app-event-list>
 </div>
 </mat-expansion-panel>

@@ -37,7 +37,6 @@ export class EntryForm implements OnInit {
 
   onSelectBook(event: any) {
     this.bookSelected = event.value;
-    console.log('Selected book:', this.bookSelected);
   }
 
   ngOnInit(): void {
@@ -54,11 +53,37 @@ export class EntryForm implements OnInit {
     if (this.entryForm.get('user')?.invalid || this.entryForm.get('entryDate')?.invalid) {
       return false;
     }
-    if (this.entryForm.get('book')?.value && this.entryForm.get('pages')?.value) {
-      return true;
+    if (this.entryForm.get('book')?.value
+            && this.entryForm.get('book')?.value != null) {
+      if (this.entryForm.get('pages')?.value) {
+        if (this.entryForm.get('walk')?.value) {
+          if (this.entryForm.get('miles')?.value) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+        return true;
+        }
+      } else {
+        return false;
+      }
     }
-    else if (this.entryForm.get('walk')?.value && this.entryForm.get('miles')?.value) {
-      return true;
+    if (this.entryForm.get('walk')?.value) {
+      if (this.entryForm.get('miles')?.value) {
+        if (this.entryForm.get('book')?.value
+            && this.entryForm.get('book')?.value != null) {
+          if (this.entryForm.get('pages')?.value) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+        return true;
+        }
+      } else {
+        return false;
+      }
     }
     return false;
   }

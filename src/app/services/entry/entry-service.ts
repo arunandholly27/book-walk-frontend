@@ -10,8 +10,8 @@ export class EntryService {
 
   constructor(private http: HttpClient) {}
 
-  createEntry(entry: Entry) {
-    return this.http.post(this.apiUrl, entry);
+  createEntry(submitData: any) {
+    return this.http.post<any>(this.apiUrl + '/create', submitData);
   }
 
   loadEntries(entry: Entry) {

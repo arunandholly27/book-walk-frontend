@@ -16,8 +16,8 @@ export class EventListComponent {
     @Output() removeEvent = new EventEmitter<string>();
     @Output() addEvent = new EventEmitter<Date>();
 
-    onRemoveEvent(event: string) {
-        this.removeEvent.emit(event);
+    onRemoveEvent() {
+        this.removeEvent.emit();
     }
 
     onAddEvent(date: Date) {

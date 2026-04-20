@@ -38,6 +38,10 @@ export class CalendarComponent implements OnInit {
         this.isToggled = this.helperService.isToggled();
         this.loadScores();
     }
+
+    ngOnChanges() {
+        this.loadScores();
+    }
     
     nav() {
         this.router.navigate(['/statistics']);

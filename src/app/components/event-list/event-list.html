@@ -5,4 +5,4 @@
         <mat-icon>add</mat-icon>
     </button>
 </div>
-<app-entry-table [selectedDate]="selectedDate"></app-entry-table>
+<app-entry-table (entryDeleted)="onRemoveEvent()" [selectedDate]="selectedDate"></app-entry-table>

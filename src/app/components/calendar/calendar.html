@@ -39,6 +39,6 @@
             <h2>{{ currentDate | date : "MMMM yyyy" }}</h2>
             <button (click)="changeMonth(1)">Next</button>
         </div>
-        <app-month-view [date]="currentDate"></app-month-view>
+        <app-month-view (entryCreated)="loadScores()" [date]="currentDate"></app-month-view>
     </div>
 </div>
