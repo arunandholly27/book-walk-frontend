@@ -28,4 +28,4 @@ jobs:
           GH_SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         env:
           CI: true
-          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
