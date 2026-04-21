@@ -18,10 +18,14 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - name: Configure Git to use PAT
-        run: git config --global url."https://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@github.com/".insteadOf "https://github.com/"
+      - name: Install SSH Key
+        uses: [shimataro/ssh-key-action](https://github.com/marketplace/actions/install-ssh-key)@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Deploy
         run: npm run deploy
+        with:
+          GH_SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         env:
           CI: true
-          GH_TOKEN: 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
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
