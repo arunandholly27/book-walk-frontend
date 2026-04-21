@@ -6,8 +6,8 @@
     <!-- This filler fills the remaining space, pushing the buttons to the right -->
     <span class="example-spacer"></span>
     
-    <button mat-button>Calendar</button>
-    <button mat-button (click)="nav()">Statistics</button>
+    <button mat-button (click)="nav('/calendar')">Calendar</button>
+    <button mat-button (click)="nav('/statistics')">Statistics</button>
     </mat-toolbar>
     <div class="main-container">
         <div *ngIf="isLoading" class="loading-container">

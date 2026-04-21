@@ -43,8 +43,8 @@ export class CalendarComponent implements OnInit {
         this.loadScores();
     }
     
-    nav() {
-        this.router.navigate(['/statistics']);
+    nav(link: string) {
+        this.router.navigate([link]);
     }
 
     toggle() {

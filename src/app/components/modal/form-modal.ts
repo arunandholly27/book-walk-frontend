@@ -19,6 +19,7 @@ export class FormModal implements OnInit {
   @Input() books: any[] = [];
   
   ngOnInit() {
+    this.books = this.books.filter(book => book.iCurrentPage !== book.iTotalPages);
   }
 
   closeModal(entryData?: any) {
