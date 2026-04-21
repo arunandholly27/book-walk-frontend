@@ -13,6 +13,10 @@ jobs:
       contents: write  # Required for pushing to the gh-pages branch
 
     steps:
+      - name: Configure Git
+        run: |
+          git config --global user.email "arunandholly27@gmail.com"
+          git config --global user.name "arunandholly27"
       - name: Checkout Code
         uses: [actions/checkout@v4](https://github.com)
 
