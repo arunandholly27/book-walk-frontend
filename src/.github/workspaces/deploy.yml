@@ -18,6 +18,8 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+      - name: Configure Git to use PAT
+        run: git config --global url."https://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@github.com/".insteadOf "https://github.com/"
       - name: Deploy
         run: npm run deploy
         env:
