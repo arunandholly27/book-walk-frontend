@@ -67,6 +67,13 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "name": "arunandholly27",
+            "email": "arunandholly27@gmail.com"
+          }
         }
       }
     }
