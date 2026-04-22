@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/api/user';
+  private apiUrl = 'https://book-walk-frontend.onrender.com/api/user';
 
   constructor(private http: HttpClient) {}
 

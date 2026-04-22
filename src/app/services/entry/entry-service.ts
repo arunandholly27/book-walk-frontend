@@ -6,7 +6,7 @@ import { Entry } from '../../objects/Entry';
   providedIn: 'root',
 })
 export class EntryService {
-  private apiUrl = 'http://localhost:8080/api/entry';
+  private apiUrl = 'https://book-walk-frontend.onrender.com/api/entry';
 
   constructor(private http: HttpClient) {}
 

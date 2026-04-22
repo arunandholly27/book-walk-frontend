@@ -7,7 +7,7 @@ import { GoogleBook } from '../../objects/GoogleBook';
   providedIn: 'root',
 })
 export class BookService {
-  private apiUrl = 'http://localhost:8080/api/book';
+  private apiUrl = 'https://book-walk-frontend.onrender.com/api/book';
   private googleBooksApiUrl = 'https://www.googleapis.com/books/v1/volumes';
   private googleApiKey = 'AIzaSyC4CM2s8PGnDcc1Hp9tCjLqSz8NQkibHqk';
 
